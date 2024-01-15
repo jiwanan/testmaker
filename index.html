@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <header>
+            HEADER
+        </header>
+        <content>
+            <div class="box1">
+                DIV 1
+            </div>
+            <div class="box2">
+                DIV 2
+            </div>
+            <div class="box3">
+                DIV 3
+            </div>
+            <div class="flex-box">
+                <div class="flex" id="f1">F1</div>
+                <div class="flex" id="f2">F2</div>
+                <div class="flex" id="f3">F3</div>
+                <div class="flex" id="f4">F4</div>
+            </div>
+            <div>
+                <a target="_blank" id="google-link" href="https://www.google.com">구글 방문하기</a>
+                <a target="_blank" id="naver-link" href="https://www.naver.com">네이버 방문하기</a>
+            </div>
+        </content>
+        <footer>
+            FOOTER
+        </footer>
+    </body>
+</html>
+<style>
+    body {
+        width: 100%;
+        height: 100%;
+    }
+    header { 
+        height: 300px;
+        border: solid 1px black;
+        padding: 10px;
+    }
+    footer {
+        height: 200px;
+        padding: 10px;
+        border: solid 1px black;
+    }
+    .box1, .box2, .box3 {
+        height: 100px;
+        padding: 10px;
+        border: solid 1px blue;
+        margin: 5px 0;
+    }
+    .flex-box {
+        display: flex;
+        border: solid 2px yellowgreen;
+        height: 500px;
+        margin-bottom: 5px;
+    }
+    .flex-box > .flex {
+        width: 10%;
+        height: 100%;
+        margin: auto;
+        border: solid 1px red;
+        transition: all ease 1s;
+    }
+    .flex-box > .flex:hover {
+        border-radius: 6px;
+        transform : rotate(45deg);
+    }
+    #google-link {
+        font-size: 20px;
+    }
+    #google-link:visited {
+        color: red;
+        text-decoration: none;
+    }
+    #google-link:link {
+        text-decoration: none;
+    }
+    #naver-link {
+        color: rgb(86, 12, 223);
+    }
+    #naver-link:visited {
+        color: white;
+    }
+</style>
