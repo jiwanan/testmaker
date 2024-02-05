@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- jquery cdn -->
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+
+        <!-- 폰트 link 변경하는 곳 -->
+        font-family: 'Cute Font', sans-serif;
+    
+        <!-- -->
+    </head>
+    <body>
+        <div id="main-contents">
+            <div id="content-head">
+                <div class="title" id="question"></div>
+            </div>
+            <div id="image-content">
+                <div id="left">
+                    <div id="left-content" class="answer"></div>
+                </div>
+                <div id="right">
+                    <div id="right-content" class="answer"></div>
+                </div>
+            </div>
+            <div id="result-content">
+                <div id="result-image"></div>
+                <div id="reset-btn">
+                    <div class="text">다시하기</div>
+                </div>
+            </div>
+        </div>
+        <div> <a href="https://kr.freepik.com/free-vector/istj-mbti-type-isometric-composition-with-geometric-figures-and-female-character-writing-on-tablet-on-grey-background-vector-illustration_70828739.htm#query=mbti&position=26&from_view=keyword&track=sph&uuid=47ced9e0-dbc9-44c7-a710-a8c76945b274">작가 macrovector_official</a> 출처 Freepik </div>
+    </body>
+</html>
+<script>
+    
+    const leftDiv = document.getElementById("left");
+    const rightDiv = document.getElementById("right");
+
+    const resetBtn = document.getElementById("reset-btn");
+
+    const questionContent = document.getElementById("question");
+    const leftContent = document.getElementById("left-content");
+    const rightContent = document.getElementById("right-content");
+
+    const question = [
+        "나 오늘 헤어졌어 ㅜㅜ",
+        "헐 나 조금 늦을것 같아. 버스 놓쳐서 택시 잡았는데 차가 너무 막힌다 ㅜ",
+        "이번 시험 불합격했어 ㅜ",
+        "나 이빨 10개 뽑히는 꿈 꿨어",
+        "넌 어떤 취미생활이 좋아?",
+        "다음달에 해외가는거 태국으로 갈래?",
+        "노래 들을때 뭐가 중요해?",
+        "뭐해? 심심한데 나와!"
+    ];
+    const answer = [
+        [["괜찮아? 기다려봐 내가 전화할게", "F"], ["사람은 사람으로 잊는거래. 힘내!", "T"]],
+        [["음 알겠어. 기다리고 있을게! ( 근데 사과는..? )", "F"], ["음 알겠어. 기다리고 있을게! ( 이유가 타당하네.. )", "T"]],
+        [["헐 ㅜㅜ 너무 아깝다 열심히 했던거 같은데", "F"], ["몇 점 차이로? 근데 너는 공부법만 바꾸면 점수 팍 오를거야", "T"]],
+        [["그래? 무슨 꿈인지 꿈 해몽 찾아보자", "T"], ["헐 무서웠겠다. 나였으면 바로 기절했을 듯", "F"]],
+        [["난 많은 회원이 있는 동호회 들어가는게 좋아", "E"], ["혼자서 조용히 하는 취미생활이 좋아", "I"]],
+        [["태국? 어떻게 그런 생각을! 재밌겠다.", "F"], ["그때 태국날씨 좀 보고올게!", "T"]],
+        [["난 멜로디 위주로 들어. 가사는 잘 안들어", "S"], ["가사가 중요하지! 가사까지 맘에 들어야 최애곡이야", "N"]],
+        [["응? 갑자기? 나 오늘 계획 다 세워놨는뎅....", "J"], ["오 좋아! 어디야?", "P"]]
+    ];
+    let result = [];
+    let pointer = 0;
+
+
+    const contentWriter = {
+        reWrite : (pointer) => {
+            questionContent.innerText = question[pointer];
+            leftContent.innerText =  answer[pointer][0][0];
+            rightContent.innerText = answer[pointer][1][0];
+        }
+    }
+
+    const calculate = (array) => {
+        const iCnt = array.filter(a => a === "I").length;
+        const eCnt = array.filter(a => a === "E").length;
+        const sCnt = array.filter(a => a === "S").length;
+        const nCnt = array.filter(a => a === "N").length;
+        const fCnt = array.filter(a => a === "F").length;
+        const tCnt = array.filter(a => a === "T").length;
+        const pCnt = array.filter(a => a === "P").length;
+        const jCnt = array.filter(a => a === "J").length;
+
+        let resultMBTI = "";
+        
+        resultMBTI += iCnt > eCnt ? "I" : "E"; 
+        resultMBTI += sCnt > nCnt ? "S" : "N"; 
+        resultMBTI += fCnt > tCnt ? "F" : "T"; 
+        resultMBTI += pCnt > jCnt ? "P" : "J"; 
+        showResult(resultMBTI);
+    }
+
+    const showResult = (result) => {
+        
+        switch (result) {
+            case "ISFP":
+                imageUrl = "./image/isfp.png";
+                break;
+            case "ESFJ":
+                imageUrl = "./image/esfj.png";
+                break;
+            default:
+                imageUrl = "./image/istj.png";
+
+        }
+        
+        $("#image-content").hide();
+        $("#result-content").show();
+        const styleObj = {
+            "background": `url(${imageUrl}) no-repeat`,
+            "background-size": "contain",
+            "background-position": "center"
+        }
+        $("#result-image").css(styleObj);
+        questionContent.innerText = result;
+    }
+
+
+    leftDiv.addEventListener("click", () => {
+        result.push(answer[pointer][0][1]);
+        pointer++;
+        if (pointer == question.length) {
+            calculate(result);
+        } else {
+            contentWriter.reWrite(pointer);
+        }
+    })
+
+    
+    rightDiv.addEventListener("click", () => {
+        result.push(answer[pointer][1][1]);
+        pointer++;
+        if (pointer == question.length) {
+            calculate(result);
+        } else {
+            contentWriter.reWrite(pointer);
+        }
+    })
+
+    resetBtn.addEventListener("click", () => {
+        pointer = 0;
+        result = [];
+        $("#image-content").show();
+        $("#result-content").hide();
+        questionContent.innerText = question[pointer];
+    })
+
+
+    window.onload = () => {
+        contentWriter.reWrite(pointer);
+        $("#result-content").hide();
+    }
+
+</script>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+        font-family: 'Cute Font', sans-serif;
+    
+        color: #FF84E8;
+    }
+    body {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+    }
+    #main-contents {
+        width: 60%;
+        height: 60%;
+        margin: auto;
+        background-color: #2A2D43;
+        display: flex;
+        flex-direction: column;
+    }
+    #main-contents > #content-head {
+        width: 100%;
+        height: 20%;
+        display: flex;
+    }
+    #content-head > .title {
+        margin: auto;
+        font-size: 43px;
+        padding: 0 30px;
+        text-align: center;
+    }
+    #image-content {
+        display: flex;
+        flex: auto
+    }
+
+    #image-content .question {
+        font-size: 30px;
+    }
+
+    #left {
+        width: 50%;
+        height: 400px;
+        background-color: #414361;
+        margin: auto;
+        display: flex;
+    }
+
+    #left > div , #right > div {
+        color: white;
+        margin: auto;
+        padding: 0 30px;
+        text-align: center;
+    }
+
+    #right {
+        border-radius: 200px;
+        width: 50%;
+        height: 400px;
+        background-color: #7F2CCB;
+        margin: auto;
+        display: flex;
+    }
+
+    #result-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #result-content > #result-image {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+    }
+
+    #reset-btn {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        background-color: #414361;
+    }
+    
+    #reset-btn:hover {
+        background-color: #FFA9E7;
+        cursor: pointer;
+    }
+
+    #reset-btn > .text {
+        margin: auto;
+        font-size: 30px;
+        color: white;
+    }
+</style>
